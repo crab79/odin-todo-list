@@ -1,2 +1,122 @@
+@import url("https://cdn-uicons.flaticon.com/2.2.0/uicons-bold-rounded/css/uicons-bold-rounded.css");
 
+@mixin exo2($weight: 400) {
+    font-family: "Exo 2", sans-serif;
+    font-weight: $weight;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
 
+$main-theme-color: #3c486b;
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: fit-content;
+    background-color: #1E1E1E;
+    box-shadow: rgba(0, 0, 0, 0.25) 1px 5px 5px;
+    position: fixed;
+    top: 0;
+
+    #div_logo,
+    #div_theme {
+        display: flex;
+        align-self: center;
+        justify-content: center;
+    }
+
+    #div_logo{
+        position: static;
+        top:1rem;
+    }
+
+    #div_theme{
+        position: relative;
+        left: 15rem;
+        .switch {
+            --button-width: 4em;
+            --button-height: 2em;
+            --toggle-diameter: 1.5em;
+            --button-toggle-offset: calc((var(--button-height) - var(--toggle-diameter)) / 2);
+            --toggle-shadow-offset: 10px;
+            --toggle-wider: 3em;
+            --color-grey: #3c486b;
+            --color-green: #cfa833;
+        }
+    
+        .slider {
+            display: inline-block;
+            width: var(--button-width);
+            height: var(--button-height);
+            background-color: var(--color-grey);
+            border-radius: calc(var(--button-height) / 2);
+            position: relative;
+            transition: 0.3s all ease-in-out;
+        }
+    
+        .slider::after {
+            content: "";
+            display: inline-block;
+            width: var(--toggle-diameter);
+            height: var(--toggle-diameter);
+            background-color: #fff;
+            border-radius: calc(var(--toggle-diameter) / 2);
+            position: absolute;
+            top: var(--button-toggle-offset);
+            transform: translateX(var(--button-toggle-offset));
+            box-shadow: var(--toggle-shadow-offset) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
+            transition: 0.3s all ease-in-out;
+        }
+    
+        .switch input[type="checkbox"]:checked + .slider {
+            background-color: var(--color-green);
+        }
+    
+        .switch input[type="checkbox"]:checked + .slider::after {
+            transform: translateX(calc(var(--button-width) - var(--toggle-diameter) - var(--button-toggle-offset)));
+            box-shadow: calc(var(--toggle-shadow-offset) * -1) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
+        }
+    
+        .switch input[type="checkbox"] {
+            display: none;
+        }
+    
+        .switch input[type="checkbox"]:active + .slider::after {
+            width: var(--toggle-wider);
+        }
+    
+        .switch input[type="checkbox"]:checked:active + .slider::after {
+            transform: translateX(calc(var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)));
+        }
+    }
+
+    #title {
+        @include exo2($weight: 700);
+        font-size: 3rem;
+        text-align: center;
+        padding: 16px;
+        color: #fff;
+    }
+
+    .fi {
+        font-size: 2rem;
+    }
+
+    img {
+        width: 10%;
+        align-self: center;
+        padding-right: 1rem;
+    }
+}
