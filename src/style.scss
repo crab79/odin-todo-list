@@ -8,7 +8,7 @@
 }
 
 $main-theme-color: #3c486b;
-
+$side-bar-color: #f8f8f88e;
 * {
     margin: 0;
     padding: 0;
@@ -24,10 +24,9 @@ header {
     display: flex;
     justify-content: center;
     width: 100%;
-    height: fit-content;
-    background-color: #1E1E1E;
+    height: 7rem;
+    background-color: #1e1e1e;
     box-shadow: rgba(0, 0, 0, 0.25) 1px 5px 5px;
-    position: fixed;
     top: 0;
 
     #div_logo,
@@ -37,12 +36,12 @@ header {
         justify-content: center;
     }
 
-    #div_logo{
+    #div_logo {
         position: static;
-        top:1rem;
+        top: 1rem;
     }
 
-    #div_theme{
+    #div_theme {
         position: relative;
         left: 15rem;
         .switch {
@@ -55,7 +54,7 @@ header {
             --color-grey: #3c486b;
             --color-green: #cfa833;
         }
-    
+
         .slider {
             display: inline-block;
             width: var(--button-width);
@@ -65,7 +64,7 @@ header {
             position: relative;
             transition: 0.3s all ease-in-out;
         }
-    
+
         .slider::after {
             content: "";
             display: inline-block;
@@ -79,24 +78,25 @@ header {
             box-shadow: var(--toggle-shadow-offset) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
             transition: 0.3s all ease-in-out;
         }
-    
+
         .switch input[type="checkbox"]:checked + .slider {
             background-color: var(--color-green);
         }
-    
+
         .switch input[type="checkbox"]:checked + .slider::after {
             transform: translateX(calc(var(--button-width) - var(--toggle-diameter) - var(--button-toggle-offset)));
-            box-shadow: calc(var(--toggle-shadow-offset) * -1) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
+            box-shadow: calc(var(--toggle-shadow-offset) * -1) 0 calc(var(--toggle-shadow-offset) * 4)
+                rgba(0, 0, 0, 0.1);
         }
-    
+
         .switch input[type="checkbox"] {
             display: none;
         }
-    
+
         .switch input[type="checkbox"]:active + .slider::after {
             width: var(--toggle-wider);
         }
-    
+
         .switch input[type="checkbox"]:checked:active + .slider::after {
             transform: translateX(calc(var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)));
         }
@@ -118,5 +118,162 @@ header {
         width: 10%;
         align-self: center;
         padding-right: 1rem;
+    }
+}
+
+#content {
+    display: flex;
+    background-color: $main-theme-color;
+    #side-bar {
+        display: flex;
+        flex-direction: column;
+        width: 30%;
+        background-color: $side-bar-color;
+        border-top-right-radius: 40px;
+        border-bottom-right-radius: 40px;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        @include exo2();
+
+        #your-todo-list {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            #h1AndButton {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                h1 {
+                    @include exo2($weight: 700);
+                    font-size: 2rem;
+                    text-align: center;
+                    padding: 16px;
+                    color: #1e1e1e;
+                }
+                button {
+                    margin-right: 2rem;
+                    background: none;
+                    border: none;
+                    img {
+                        width: 70%;
+                        &:hover {
+                            cursor: pointer;
+                            width: 90%;
+                        }
+                    }
+                }
+            }
+            .addingSthButton {
+                img {
+                    width: 20%;
+                }
+                background: #fff;
+                width: 15rem;
+                border-width: 0;
+                border-radius: 50px;
+                font-size: 1rem;
+                text-align: center;
+                vertical-align: middle;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                &:hover {
+                    color: #fff;
+                    background-color: #1e1e1e;
+                    border-radius: 40px;
+                    cursor: pointer;
+                }
+            }
+            .tabButton {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+                &:hover {
+                    background-color: #fff;
+                    border-radius: 40px;
+                    cursor: pointer;
+                }
+                background: none;
+                width: 100%;
+                border: none;
+                font-size: 2rem;
+                text-align: center;
+            }
+        }
+        #projects {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            justify-content: center;
+            align-content: flex-start;
+            gap: 1rem;
+            h1 {
+                @include exo2($weight: 700);
+                font-size: 2rem;
+                text-align: left;
+                padding: 16px;
+                color: #1e1e1e;
+            }
+            .addingSthButton {
+                img {
+                    width: 20%;
+                }
+                background: #fff;
+                width: 15rem;
+                border-width: 0;
+                border-radius: 50px;
+                font-size: 1rem;
+                text-align: center;
+                vertical-align: middle;
+                display: flex;
+                align-self: center;
+                align-items: center;
+                justify-content: center;
+                &:hover {
+                    color: #fff;
+                    background-color: #1e1e1e;
+                    border-radius: 40px;
+                    cursor: pointer;
+                }
+            }
+            .tabProject {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+                &:hover {
+                    background-color: #fff;
+                    border-radius: 40px;
+                }
+                button:first-child {
+                    background: none;
+                    width: fit-content;
+                    border: none;
+                    font-size: 2rem;
+                    text-align: center;
+                    display: flex;
+                    align-items: center;
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+                button:last-child {
+                    background: none;
+                    border: none;
+                    img {
+                        width: 70%;
+                        &:hover {
+                            cursor: pointer;
+                            width: 90%;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
