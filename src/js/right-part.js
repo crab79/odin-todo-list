@@ -40,9 +40,9 @@ const right_part = () => {
     div_h1AndH3.className = "shortInfo";
     div_todoSetting.className = "todoSetting";
     div_checkbox.className = "checkbox"
-    div_delete.className = "delete";
-    div_details.className = "details";
-    div_edit.className = "edit";
+    div_delete.className = "setting";
+    div_details.className = "setting";
+    div_edit.className = "setting";
 
     //setting textcontent
     h1_title.textContent = "Todo1";
