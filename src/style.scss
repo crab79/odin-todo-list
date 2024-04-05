@@ -321,6 +321,7 @@ header {
                     }
                     &:hover{
                        font-size: 1.5rem;
+                       cursor: pointer;
                        img{
                         height: 2.5rem;
                        } 
@@ -341,6 +342,7 @@ header {
                     width: 5rem;
                 }  
                 &:hover{
+                    cursor: pointer;
                     img{
                         display: flex;
                     }
