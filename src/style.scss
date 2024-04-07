@@ -8,7 +8,10 @@
 }
 
 $main-theme-color: #3c486b;
+$main-theme-color-bright: #FFF3CF;
+
 $side-bar-color: #f8f8f88e;
+
 * {
     margin: 0;
     padding: 0;
@@ -18,6 +21,7 @@ body {
     font-size: 12px;
     display: flex;
     flex-direction: column;
+    width: 100vw;
 }
 
 header {
@@ -55,7 +59,7 @@ header {
             --color-green: #cfa833;
         }
 
-        .slider {
+        #slider {
             display: inline-block;
             width: var(--button-width);
             height: var(--button-height);
@@ -65,12 +69,12 @@ header {
             transition: 0.3s all ease-in-out;
         }
 
-        .slider::after {
+        #slider::after {
             content: "";
             display: inline-block;
             width: var(--toggle-diameter);
             height: var(--toggle-diameter);
-            background-color: #fff;
+            background-color: #ffffff;
             border-radius: calc(var(--toggle-diameter) / 2);
             position: absolute;
             top: var(--button-toggle-offset);
@@ -79,11 +83,11 @@ header {
             transition: 0.3s all ease-in-out;
         }
 
-        .switch input[type="checkbox"]:checked + .slider {
+        .switch input[type="checkbox"]:checked + #slider {
             background-color: var(--color-green);
         }
 
-        .switch input[type="checkbox"]:checked + .slider::after {
+        .switch input[type="checkbox"]:checked + #slider::after {
             transform: translateX(calc(var(--button-width) - var(--toggle-diameter) - var(--button-toggle-offset)));
             box-shadow: calc(var(--toggle-shadow-offset) * -1) 0 calc(var(--toggle-shadow-offset) * 4)
                 rgba(0, 0, 0, 0.1);
@@ -93,11 +97,11 @@ header {
             display: none;
         }
 
-        .switch input[type="checkbox"]:active + .slider::after {
+        .switch input[type="checkbox"]:active + #slider::after {
             width: var(--toggle-wider);
         }
 
-        .switch input[type="checkbox"]:checked:active + .slider::after {
+        .switch input[type="checkbox"]:checked:active + #slider::after {
             transform: translateX(calc(var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)));
         }
     }
@@ -121,17 +125,19 @@ header {
     }
 }
 
-#content {
+#content, .content-bright {
     display: flex;
     background-color: $main-theme-color;
+    height: 100vh;
     #side-bar {
         display: flex;
         flex-direction: column;
         width: 30%;
+        height: 100vh;
         background-color: $side-bar-color;
         border-top-right-radius: 40px;
         border-bottom-right-radius: 40px;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         gap: 1rem;
         @include exo2();
@@ -167,7 +173,7 @@ header {
                     }
                 }
             }
-            .addingSthButton {
+            .addingSthButton, .addingSthButton-bright {
                 img {
                     width: 20%;
                 }
@@ -188,6 +194,17 @@ header {
                     cursor: pointer;
                 }
             }
+            .addingSthButton-bright{
+                background: $main-theme-color;
+                color: #fff;
+                &:hover {
+                    color: $main-theme-color;
+                    background-color: #fff;
+                    border: #3c486b solid 1px;
+                    border-radius: 40px;
+                    cursor: pointer;
+                }
+            }
             .tabButton {
                 display: flex;
                 align-items: center;
@@ -197,6 +214,7 @@ header {
                 &:hover {
                     background-color: #fff;
                     border-radius: 40px;
+                    border: #3c486b solid 1px;
                     cursor: pointer;
                 }
                 background: none;
@@ -220,7 +238,7 @@ header {
                 padding: 16px;
                 color: #1e1e1e;
             }
-            .addingSthButton {
+            .addingSthButton, .addingSthButton-bright {
                 img {
                     width: 20%;
                 }
@@ -242,6 +260,17 @@ header {
                     cursor: pointer;
                 }
             }
+            .addingSthButton-bright{
+                background: $main-theme-color;
+                color: #fff;
+                &:hover {
+                    color: $main-theme-color;
+                    background-color: #fff;
+                    border: #3c486b solid 1px;
+                    border-radius: 40px;
+                    cursor: pointer;
+                }
+            }
             .tabProject {
                 display: flex;
                 align-items: center;
@@ -251,6 +280,7 @@ header {
                 &:hover {
                     background-color: #fff;
                     border-radius: 40px;
+                    border: #3c486b solid 1px;
                 }
                 button:first-child {
                     background: none;
@@ -282,8 +312,9 @@ header {
         display: flex;
         flex-direction: column;
         width: 70%;
+        height: 80vh;
         align-items: center;
-        .aTodo{
+        .aTodo, .aTodo-bright{
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -309,6 +340,7 @@ header {
                 display: flex;
                 flex-direction: column;
                 height: 8rem;
+                width: 8rem;
                 justify-content: center;
                 gap: 0.5rem;
                 font-size: 1rem;
@@ -316,6 +348,7 @@ header {
                 .setting{
                     display: flex;
                     align-items: center;
+
                     img{
                         height: 2rem;
                     }
@@ -354,5 +387,10 @@ header {
                 }
             }
         }
+        .aTodo-bright{
+            background-color: $main-theme-color;
+            color: #D9D9D9;
+        }
     }
 }
+
