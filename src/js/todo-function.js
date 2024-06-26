@@ -10,12 +10,12 @@ const importantTodo = [];
 
 // Add this at the beginning of your script
 if (!Element.prototype.matches) {
-    Element.prototype.matches = Element.prototype.msMatchesSelector ||
-        Element.prototype.webkitMatchesSelector;
+    Element.prototype.matches = Element.prototype.msMatchesSelector || 
+                                Element.prototype.webkitMatchesSelector;
 }
 
 if (!Element.prototype.closest) {
-    Element.prototype.closest = function (s) {
+    Element.prototype.closest = function(s) {
         var el = this;
         do {
             if (el.matches(s)) return el;
@@ -209,11 +209,11 @@ function EditDialog(todoTitle) {
         document.getElementById('todo-due-date').value = format(new Date(todo.dueDate), "yyyy-MM-dd");
         const prioritySelect = document.getElementById('todo-priority-level');
         for (let i = 0; i < prioritySelect.options.length; i++) {
-            if (prioritySelect.options[i].value === todo.priority) {
-                prioritySelect.selectedIndex = i;
-                break;
-            }
-        }
+          if (prioritySelect.options[i].value === todo.priority) {
+            prioritySelect.selectedIndex = i;
+            break;
+          }
+        }        
         document.getElementById('todo-Context').value = todo.description;
 
         // Open the dialog
@@ -254,30 +254,30 @@ function updateTodo(oldTitle) {
 
 function updateTodoInHtml(oldTitle, updatedTodo) {
     const allTodos = document.querySelectorAll('.aTodo');
-
+    
     for (let todoElement of allTodos) {
         const titleElement = todoElement.querySelector('.shortInfo h1');
         if (titleElement && titleElement.textContent === oldTitle) {
             // Update title
             titleElement.textContent = updatedTodo.title;
-
+            
             // Update due date
             const dueDateElement = todoElement.querySelector('.shortInfo h3');
             if (dueDateElement) {
                 dueDateElement.textContent = updatedTodo.dueDate;
             }
-
+            
             // Update color sign
             const colorSign = todoElement.querySelector('.colorSign');
             if (colorSign) {
                 decideColorSign(updatedTodo, colorSign);
             }
-
+            
             console.log('Todo updated in HTML');
             return; // Exit the function once we've updated the correct todo
         }
     }
-
+    
     console.log('Todo element not found in HTML');
 }
 
