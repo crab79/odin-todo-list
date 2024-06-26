@@ -6,6 +6,8 @@ import starSrc from "../../img/Star.png";
 import addFolderSrc from "../../img/Add Folder.png"
 import projectSrc from "../../img/Folder.png";
 import menuSrc from "../../img/Menu.png";
+import { right_part } from "./right-part";
+import { Todo, allTodo, importantTodo, addTodoDialog, createTodo } from "./todo-function";
 
 const sideBar = document.getElementById("side-bar");
 
@@ -47,14 +49,14 @@ const yourTodoList_area = () => {
     button_today.type = "button";
     button_next7Days.type = "button";
     button_important.type = "button";
-    
+
     //setting src
     img_button_tabController.src = tabSrc;
     img_button_addTodo.src = addSrc;
     img_button_today.src = todaySrc;
     img_button_next7Days.src = _7daysSrc;
     img_button_important.src = starSrc;
-    
+
     //setting textContent
     h1_todo_list.textContent = "Your Todo-list";
     button_addTodo.textContent = "Add To-do";
@@ -77,6 +79,30 @@ const yourTodoList_area = () => {
     yourTodoList.append(button_important);
     sideBar.append(yourTodoList);
     sideBar.append(hr);
+
+    //function
+    button_tabController.addEventListener(('click'), function () {
+        let content = document.getElementById('content');
+        let right_part = document.getElementById('rightPart');
+        if (content.contains(sideBar)) {
+            content.removeChild(sideBar);
+            content.appendChild(button_tabController);
+            flipPic(img_button_tabController);
+        } else {
+            content.removeChild(button_tabController);
+            content.removeChild(right_part);
+            content.appendChild(sideBar);
+            flipPic(img_button_tabController);
+            div_h1AndButton.appendChild(button_tabController);
+            content.appendChild(right_part);
+        }
+    });
+
+    button_addTodo.addEventListener(('click'), addTodoDialog());
+
+    function flipPic(img) {
+        img.style.transform = img.style.transform === 'scaleX(-1)' ? 'scaleX(1)' : 'scaleX(-1)';
+    }
 }
 
 const project_area = () => {
@@ -93,7 +119,7 @@ const project_area = () => {
 
     //setting type
     button_addProject.type = "button";
-    
+
     //setting src
     img_button_addProject.src = addFolderSrc;
 
@@ -124,7 +150,7 @@ const project_area = () => {
     projects.append(div_project1);
     sideBar.append(projects);
 
-    
+
 }
 
-export {side_bar_area};
+export { side_bar_area };
