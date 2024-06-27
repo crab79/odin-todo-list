@@ -382,13 +382,13 @@ header {
                     height: fit-content;
                     width: 5rem;
                 }
+                &.checked {
+                    img {
+                      display: flex;
+                    }
+                  }
                 &:hover {
                     cursor: pointer;
-                    img {
-                        display: flex;
-                    }
-                }
-                &:focus {
                     img {
                         display: flex;
                     }

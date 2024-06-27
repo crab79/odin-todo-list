@@ -8,22 +8,6 @@ import { right_part } from "./right-part";
 const allTodo = [];
 const importantTodo = [];
 
-// Add this at the beginning of your script
-if (!Element.prototype.matches) {
-    Element.prototype.matches = Element.prototype.msMatchesSelector || 
-                                Element.prototype.webkitMatchesSelector;
-}
-
-if (!Element.prototype.closest) {
-    Element.prototype.closest = function(s) {
-        var el = this;
-        do {
-            if (el.matches(s)) return el;
-            el = el.parentElement || el.parentNode;
-        } while (el !== null && el.nodeType === 1);
-        return null;
-    };
-}
 
 class Todo {
     constructor(title, description, dueDate, priority) {
@@ -33,35 +17,6 @@ class Todo {
         this.priority = priority;
         this.checked = false;
         allTodo.push(this);
-    }
-
-    delete() {
-        this.title = null;
-        this.description = null;
-        this.dueDate = null;
-        this.priority = null;
-    }
-
-    read() {
-        if (this.title !== null && this.description !== null && this.dueDate !== null && this.priority !== null) {
-            // console.log(`Title: ${this.title}\nDescription: ${this.description}\nDue Date: ${this.dueDate}\nPriority: ${this.priority}\nChecked: ${this.checked}`);
-            createTodoInHtml(this);
-        }
-    }
-
-    markAsChecked() {
-        this.checked = true;
-    }
-
-    markAsImportant() {
-        importantTodo.push(this);
-    }
-
-    setting(title = this.title, description = this.description, dueDate = this.dueDate, priority = this.priority) {
-        this.title = title;
-        this.description = description;
-        this.dueDate = format(new Date(dueDate), "yyyy-MM-dd");
-        this.priority = priority;
     }
 }
 
@@ -150,7 +105,9 @@ function createTodoInHtml(newTodo) {
     p_details.textContent = "Details";
     p_edit.textContent = "Edit";
     p_delete.textContent = "Delete";
-
+    if (newTodo.checked) {
+        div_checkbox.classList.add('checked');
+    }
     //setting colorSign's color
     decideColorSign(newTodo, div_colorSign);
 
@@ -158,7 +115,7 @@ function createTodoInHtml(newTodo) {
     div_checkbox.append(img_check);
     div_delete.append(img_delete, p_delete);
     div_details.append(img_details, p_details);
-    div_edit.append(img_edit, p_edit);
+    //div_edit.append(img_edit, p_edit);
     div_todoSetting.append(div_details, div_edit, div_delete);
     div_h1AndH3.append(h1_title, h3_dueDate);
     div_todo.append(div_colorSign);
@@ -174,6 +131,18 @@ function createTodoInHtml(newTodo) {
     });
     div_details.addEventListener('click', function () {
         EditDialog(h1_title.textContent);
+    });
+    div_checkbox.addEventListener('click', function () {
+        const todo = getTodoByTitle(newTodo.title);
+        if (todo.checked == false) {
+            this.classList.toggle('checked');
+            todo.checked = true;
+        } else {
+            this.classList.toggle('checked');
+            todo.checked = false;
+        }
+        // Update localStorage
+        localStorage.setItem(todo.title, JSON.stringify(todo));
     });
 }
 
@@ -209,11 +178,11 @@ function EditDialog(todoTitle) {
         document.getElementById('todo-due-date').value = format(new Date(todo.dueDate), "yyyy-MM-dd");
         const prioritySelect = document.getElementById('todo-priority-level');
         for (let i = 0; i < prioritySelect.options.length; i++) {
-          if (prioritySelect.options[i].value === todo.priority) {
-            prioritySelect.selectedIndex = i;
-            break;
-          }
-        }        
+            if (prioritySelect.options[i].value === todo.priority) {
+                prioritySelect.selectedIndex = i;
+                break;
+            }
+        }
         document.getElementById('todo-Context').value = todo.description;
 
         // Open the dialog
@@ -235,14 +204,17 @@ function EditDialog(todoTitle) {
 }
 
 function updateTodo(oldTitle) {
+    const todo = getTodoByTitle(oldTitle);
     const title = document.getElementById('todo-title').value;
     const dueDate = document.getElementById('todo-due-date').value;
     const priority = document.getElementById('todo-priority-level').value;
     const description = document.getElementById('todo-Context').value;
+    const checked = todo.checked;
 
     // Update localStorage
     localStorage.removeItem(oldTitle);
     const updatedTodo = new Todo(title, description, new Date(dueDate), priority);
+    updatedTodo.checked = checked; // Preserve the checked status
     localStorage.setItem(title, JSON.stringify(updatedTodo));
 
     // Update HTML
@@ -254,37 +226,40 @@ function updateTodo(oldTitle) {
 
 function updateTodoInHtml(oldTitle, updatedTodo) {
     const allTodos = document.querySelectorAll('.aTodo');
-    
+
     for (let todoElement of allTodos) {
         const titleElement = todoElement.querySelector('.shortInfo h1');
         if (titleElement && titleElement.textContent === oldTitle) {
             // Update title
             titleElement.textContent = updatedTodo.title;
-            
+
             // Update due date
             const dueDateElement = todoElement.querySelector('.shortInfo h3');
             if (dueDateElement) {
                 dueDateElement.textContent = updatedTodo.dueDate;
             }
-            
+
             // Update color sign
             const colorSign = todoElement.querySelector('.colorSign');
             if (colorSign) {
                 decideColorSign(updatedTodo, colorSign);
             }
-            
+
             console.log('Todo updated in HTML');
             return; // Exit the function once we've updated the correct todo
         }
     }
-    
+
     console.log('Todo element not found in HTML');
 }
 
 function getTodoByTitle(title) {
     const todoData = localStorage.getItem(title);
     if (todoData) {
-        return JSON.parse(todoData);
+        const data = JSON.parse(todoData);
+        const todo = new Todo(data.title, data.description, new Date(data.dueDate), data.priority);
+        todo.checked = data.checked;
+        return todo;
     }
     return null;
 }
