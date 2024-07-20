@@ -264,4 +264,4 @@ function getTodoByTitle(title) {
     return null;
 }
 
-export { Todo, allTodo, importantTodo, addTodoDialog, createTodo, createTodoInHtml, decideColorSign, turnAllTodoInHtml, deleteAnTodo, EditDialog };
+export { Todo, allTodo, importantTodo, addTodoDialog, createTodo, createTodoInHtml, decideColorSign, turnAllTodoInHtml, deleteAnTodo, EditDialog, getTodoByTitle};

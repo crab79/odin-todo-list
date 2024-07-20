@@ -7,7 +7,8 @@ import addFolderSrc from "../../img/Add Folder.png"
 import projectSrc from "../../img/Folder.png";
 import menuSrc from "../../img/Menu.png";
 import { right_part } from "./right-part";
-import { Todo, allTodo, importantTodo, addTodoDialog, createTodo } from "./todo-function";
+import { Todo, allTodo, importantTodo, addTodoDialog, createTodo, createTodoInHtml, getTodoByTitle} from "./todo-function";
+import { format, isToday, addDays, isWithinInterval } from "date-fns";
 
 const sideBar = document.getElementById("side-bar");
 
@@ -97,6 +98,60 @@ const yourTodoList_area = () => {
             content.appendChild(right_part);
         }
     });
+
+    button_today.addEventListener('click', function () {
+        let right_part = document.getElementById('rightPart');
+        const allTodos = document.querySelectorAll('.aTodo');
+        for (let i = 0; i < allTodo.length; i++) {
+            if (!isToday(allTodo[i].dueDate)) {
+                for (let todoElement of allTodos) {
+                    const titleElement = todoElement.querySelector('.shortInfo h1');
+                    if (titleElement && titleElement.textContent === allTodo[i].title && todoElement.style.display === 'none') {
+                        todoElement.style.display = 'flex';
+                    }else if (titleElement && titleElement.textContent === allTodo[i].title){
+                        todoElement.style.display = 'none';
+                    }
+                }
+            }
+        }
+    });
+
+    button_next7Days.addEventListener('click', function () {
+        let right_part = document.getElementById('rightPart');
+        const allTodos = document.querySelectorAll('.aTodo');
+        const today = format(new Date(), 'MM/dd/yyyy');
+        const next7day = format(addDays(today, 7), 'MM/dd/yyyy');
+        for (let i = 0; i < allTodo.length; i++) {
+            if (!isWithinInterval(allTodo[i].dueDate, {start: today, end: next7day})) {
+                for (let todoElement of allTodos) {
+                    const titleElement = todoElement.querySelector('.shortInfo h1');
+                    if (titleElement && titleElement.textContent === allTodo[i].title && todoElement.style.display === 'none') {
+                        todoElement.style.display = 'flex';
+                    }else if (titleElement && titleElement.textContent === allTodo[i].title){
+                        todoElement.style.display = 'none';
+                    }
+                }
+            }
+        }
+    });
+
+    button_important.addEventListener('click', function () {
+        let right_part = document.getElementById('rightPart');
+        const allTodos = document.querySelectorAll('.aTodo');
+        for (let i = 0; i < allTodo.length; i++) {
+            if (allTodo[i].priority !== "Important") {
+                for (let todoElement of allTodos) {
+                    const titleElement = todoElement.querySelector('.shortInfo h1');
+                    if (titleElement && titleElement.textContent === allTodo[i].title && todoElement.style.display === 'none') {
+                        todoElement.style.display = 'flex';
+                    }else if (titleElement && titleElement.textContent === allTodo[i].title){
+                        todoElement.style.display = 'none';
+                    }
+                }
+            }
+        }
+    })
+    
 
     button_addTodo.addEventListener(('click'), addTodoDialog());
 
