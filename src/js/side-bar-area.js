@@ -100,60 +100,105 @@ const yourTodoList_area = () => {
     });
 
     button_today.addEventListener('click', function () {
-        let right_part = document.getElementById('rightPart');
-        const allTodos = document.querySelectorAll('.aTodo');
-        for (let i = 0; i < allTodo.length; i++) {
-            if (!isToday(allTodo[i].dueDate)) {
-                for (let todoElement of allTodos) {
-                    const titleElement = todoElement.querySelector('.shortInfo h1');
-                    if (titleElement && titleElement.textContent === allTodo[i].title && todoElement.style.display === 'none') {
-                        todoElement.style.display = 'flex';
-                    }else if (titleElement && titleElement.textContent === allTodo[i].title){
-                        todoElement.style.display = 'none';
-                    }
-                }
-            }
+        let allTodo = [];
+    
+        // Collect all to-dos from localStorage except the "projects" item
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key === "projects") continue;
+    
+            const value = JSON.parse(localStorage.getItem(key));
+            allTodo.push(value);
         }
+        
+        const allTodos = document.querySelectorAll('.aTodo');
+        
+        // Iterate through all to-dos
+        allTodos.forEach(todoElement => {
+            const titleElement = todoElement.querySelector('.shortInfo h1');
+            if (!titleElement) return;
+    
+            const todoItem = allTodo.find(todo => todo.title === titleElement.textContent);
+            
+            if (todoItem && isToday(todoItem.dueDate)) {
+                // Show the to-do if its due date is today
+                todoElement.style.display = 'flex';
+            } else {
+                // Hide the to-do if its due date is not today
+                todoElement.style.display = 'none';
+            }
+        });
     });
 
     button_next7Days.addEventListener('click', function () {
-        let right_part = document.getElementById('rightPart');
-        const allTodos = document.querySelectorAll('.aTodo');
-        const today = format(new Date(), 'MM/dd/yyyy');
-        const next7day = format(addDays(today, 7), 'MM/dd/yyyy');
-        for (let i = 0; i < allTodo.length; i++) {
-            if (!isWithinInterval(allTodo[i].dueDate, {start: today, end: next7day})) {
-                for (let todoElement of allTodos) {
-                    const titleElement = todoElement.querySelector('.shortInfo h1');
-                    if (titleElement && titleElement.textContent === allTodo[i].title && todoElement.style.display === 'none') {
-                        todoElement.style.display = 'flex';
-                    }else if (titleElement && titleElement.textContent === allTodo[i].title){
-                        todoElement.style.display = 'none';
-                    }
-                }
-            }
+        let allTodo = [];
+        // Collect all to-dos from localStorage except the "projects" item
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key === "projects") continue;
+    
+            const value = JSON.parse(localStorage.getItem(key));
+            allTodo.push(value);
         }
+    
+        const allTodos = document.querySelectorAll('.aTodo');
+        const today = new Date();
+        const next7day = addDays(today, 7);
+    
+        // Iterate over allTodo and check if dueDate is within the next 7 days
+        allTodos.forEach(todoElement => {
+            const titleElement = todoElement.querySelector('.shortInfo h1');
+            if (!titleElement) return;
+    
+            const todoItem = allTodo.find(todo => todo.title === titleElement.textContent);
+    
+            if (todoItem && isWithinInterval(todoItem.dueDate, {start: today, end: next7day}))
+            {
+                // Show the to-do if it's due within the next 7 days
+                todoElement.style.display = 'flex';
+            } else {
+                // Hide the to-do if it's not due within the next 7 days
+                todoElement.style.display = 'none';
+            }
+        });
     });
 
     button_important.addEventListener('click', function () {
-        let right_part = document.getElementById('rightPart');
-        const allTodos = document.querySelectorAll('.aTodo');
-        for (let i = 0; i < allTodo.length; i++) {
-            if (allTodo[i].priority !== "Important") {
-                for (let todoElement of allTodos) {
-                    const titleElement = todoElement.querySelector('.shortInfo h1');
-                    if (titleElement && titleElement.textContent === allTodo[i].title && todoElement.style.display === 'none') {
-                        todoElement.style.display = 'flex';
-                    }else if (titleElement && titleElement.textContent === allTodo[i].title){
-                        todoElement.style.display = 'none';
-                    }
-                }
-            }
+        let allTodo = [];
+
+        // Collect all to-dos from localStorage except the "projects" item
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key === "projects") continue;
+        
+            const value = JSON.parse(localStorage.getItem(key));
+            allTodo.push(value);
         }
+        
+        const allTodos = document.querySelectorAll('.aTodo');
+        
+        // Iterate over the DOM elements and toggle visibility based on priority
+        allTodos.forEach(todoElement => {
+            const titleElement = todoElement.querySelector('.shortInfo h1');
+            if (!titleElement) return;
+        
+            const todoItem = allTodo.find(todo => todo.title === titleElement.textContent);
+        
+            if (todoItem && todoItem.priority === "Important") {
+                // Show the to-do if its priority is "Important"
+                todoElement.style.display = 'flex';
+            } else {
+                // Hide the to-do if its priority is not "Important"
+                todoElement.style.display = 'none';
+            }
+        });
+        
     })
     
 
     button_addTodo.addEventListener(('click'), addTodoDialog());
+
+    
 
     function flipPic(img) {
         img.style.transform = img.style.transform === 'scaleX(-1)' ? 'scaleX(1)' : 'scaleX(-1)';
@@ -183,29 +228,249 @@ const project_area = () => {
     button_addProject.textContent = "Add Project";
 
     //project1 example
-    const div_project1 = document.createElement("div");
+    const div_project = document.createElement("div");
     const button_project = document.createElement("button");
     const button_projectMenu = document.createElement("button");
     const img_button_project = document.createElement("img");
     const img_button_projectMenu = document.createElement("img");
     img_button_project.src = projectSrc;
     img_button_projectMenu.src = menuSrc;
-    div_project1.className = "tabProject";
-    button_project.textContent = "Project1";
+    div_project.className = "tabProject";
+    button_project.textContent = "All";
+    let title = button_project.textContent;
+
+    button_projectMenu.className = 'setting';
 
     button_projectMenu.append(img_button_projectMenu);
     button_project.prepend(img_button_project);
-    div_project1.append(button_project);
-    div_project1.append(button_projectMenu);
+    div_project.append(button_project);
+    div_project.append(button_projectMenu);
 
     //append
     projects.append(h1_project);
     button_addProject.prepend(img_button_addProject);
     projects.append(button_addProject);
-    projects.append(div_project1);
+    projects.append(div_project);
     sideBar.append(projects);
 
+    button_addProject.addEventListener('click', function(){
+        addProjectDialog();
+    })
+
+    button_projectMenu.addEventListener('click', function(){
+        editProject(title, div_project);
+    })
+
+    div_project.addEventListener('click', function(){
+        const allTodos = document.querySelectorAll('.aTodo');
+        for (let todoElement of allTodos) {
+            todoElement.style.display = 'flex';
+        }
+    })
 
 }
 
-export { side_bar_area };
+function addProjectDialog() {
+    const dialog = document.getElementById("anProjectDialog");
+    const closeButton = dialog.querySelector("button[value='cancel']");
+    const confirmBtn = dialog.querySelector("button[value='default']");
+
+    dialog.showModal();
+
+    closeButton.addEventListener("click", () => {
+        document.getElementById('project-title').value = '';
+        dialog.close();
+    });
+
+    confirmBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+        createProject();
+        dialog.close();
+    });
+}
+
+function createProject() {
+    const title = document.getElementById("project-title").value;
+
+    if (title.trim() === "") return; // Prevent creating empty projects
+
+    // Store the project title in localStorage
+    const projects = JSON.parse(localStorage.getItem('projects')) || [];
+    projects.push(title);
+    localStorage.setItem('projects', JSON.stringify(projects));
+
+    // Create the project in the HTML
+    createProjectInHtml(title);
+
+    // Clear the form
+    document.getElementById("anProjectDialog").querySelector("form").reset();
+}
+
+function createProjectInHtml(title) {
+    const projects = document.getElementById('projects');
+    const div_project = document.createElement("div");
+    const button_project = document.createElement("button");
+    const button_projectMenu = document.createElement("button");
+    const img_button_project = document.createElement("img");
+    const img_button_projectMenu = document.createElement("img");
+
+    button_projectMenu.className = 'setting';
+
+    img_button_project.src = projectSrc;
+    img_button_projectMenu.src = menuSrc;
+    div_project.className = "tabProject";
+    button_project.textContent = title;
+
+    button_projectMenu.append(img_button_projectMenu);
+    button_project.prepend(img_button_project);
+    div_project.append(button_project, button_projectMenu);
+    projects.append(div_project);
+
+    button_projectMenu.addEventListener('click', function () {
+        editProject(title, div_project);
+    });
+
+    div_project.addEventListener('click', function(){
+        project_directory(title);
+    });
+
+}
+
+function showProjects(){
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key === 'projects') {
+            let value = localStorage.getItem(key); // Get the value from localStorage
+    
+            // Clean up the value by removing quotes, square brackets, and spaces
+            value = value.replace(/[\[\]"]/g, ''); // Remove [ ] "
+            
+            const projects = value.split(','); // Split the string into an array
+    
+            projects.forEach(project => {
+                const title = project.trim(); // Trim to remove any extra spaces
+                createProjectInHtml(project);
+            });
+        }
+    }
+}
+
+function editProject(projectName, project){
+    const dialog = document.getElementById("editProjectDialog");
+    const closeButton = dialog.querySelector("button[value='cancel']");
+    const deleteButton = dialog.querySelector("button[value='delete']");
+    const confirmBtn = dialog.querySelector("button[value='default']");
+    const input_value = document.getElementById('edit-project-title');
+    input_value.value = projectName;
+
+    dialog.showModal();
+
+    deleteButton.addEventListener('click', () => {
+        const projectsContainer = document.getElementById('projects');
+    
+        let ls_projects = localStorage.getItem('projects');
+    
+        if (ls_projects) {
+            ls_projects = JSON.parse(ls_projects);
+    
+            const projectIndex = ls_projects.findIndex(project => project === projectName);
+
+            if (projectIndex !== -1) {
+                // Remove the project from the array
+                ls_projects.splice(projectIndex, 1);
+
+                // Save the updated projects array back to localStorage
+                localStorage.setItem('projects', JSON.stringify(ls_projects));
+            }
+        }
+    
+        projectsContainer.removeChild(project);
+    });
+    
+
+    closeButton.addEventListener("click", () => {
+        document.getElementById('project-title').value = '';
+        dialog.close();
+    });
+
+    confirmBtn.addEventListener("click", (event) => {
+        event.preventDefault();
+    
+        const newTitle = document.getElementById('edit-project-title').value;
+        let ls_projects = localStorage.getItem('projects');
+        let allTodo = [];
+    
+        // Collect all to-dos from localStorage except the "projects" item
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key === "projects") continue;
+    
+            const value = JSON.parse(localStorage.getItem(key));
+            allTodo.push(value);
+        }
+    
+        if (ls_projects) {
+            ls_projects = JSON.parse(ls_projects);
+            
+            // Assuming projectName is defined elsewhere in your code
+            const projectIndex = ls_projects.findIndex(ls_project => ls_project === projectName);
+    
+            if (projectIndex !== -1) {
+                // Update the title in the projects array
+                ls_projects[projectIndex] = newTitle;
+    
+                // Save the updated projects array back to localStorage
+                localStorage.setItem('projects', JSON.stringify(ls_projects));
+    
+                // Update the title in the DOM (if it exists)
+                if (project) {
+                    project.querySelector('button').textContent = newTitle;
+                }
+    
+                // Update all to-dos that are associated with the old project name
+                allTodo.forEach(todo => {
+                    if (todo.project === projectName) {
+                        todo.project = newTitle;
+                        // Save the updated to-do back to localStorage
+                        localStorage.setItem(todo.title, JSON.stringify(todo));
+                    }
+                });
+            }
+        }
+    
+        dialog.close();
+        location.reload();
+    });
+    
+}
+
+function project_directory(title) {
+    const allTodos = document.querySelectorAll('.aTodo');
+    let allTodo = [];
+
+    // Collect all to-dos from localStorage except the "projects" item
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key === "projects") continue;
+
+        const value = JSON.parse(localStorage.getItem(key));
+        allTodo.push(value);
+    }
+
+    // Filter and display to-dos based on the project title
+    for (let todoElement of allTodos) {
+        const titleElement = todoElement.querySelector('.shortInfo h1');
+        if (!titleElement) continue;
+
+        const todoItem = allTodo.find(todo => todo.title === titleElement.textContent);
+        if (todoItem) {
+            if (todoItem.project === title) {
+                todoElement.style.display = 'flex';  // Show the to-do if it matches the project
+            } else {
+                todoElement.style.display = 'none';  // Hide the to-do if it doesn't match the project
+            }
+        }
+    }
+}
+
+export { side_bar_area, addProjectDialog, createProject , createProjectInHtml, showProjects};

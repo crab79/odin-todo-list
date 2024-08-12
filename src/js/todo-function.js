@@ -10,12 +10,13 @@ const importantTodo = [];
 
 
 class Todo {
-    constructor(title, description, dueDate, priority) {
+    constructor(title, description, dueDate, priority, project) {
         this.title = title;
         this.description = description;
         this.dueDate = format(dueDate, "MM/dd/yyyy");
         this.priority = priority;
         this.checked = false;
+        this.project = project;
         allTodo.push(this);
     }
 }
@@ -26,6 +27,27 @@ function addTodoDialog() {
     const closeButton = dialog.querySelector("button[value='cancel']");
     const confirmBtn = document.getElementById("confirmBtn");
 
+    // loading projects function
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key === 'projects') {
+            let value = localStorage.getItem(key); // Get the value from localStorage
+    
+            // Clean up the value by removing quotes, square brackets, and spaces
+            value = value.replace(/[\[\]"]/g, ''); // Remove [ ] "
+            
+            const projects = value.split(','); // Split the string into an array
+    
+            const projects_selection = document.getElementById('todo-project');
+            projects.forEach(project => {
+                const option = document.createElement('option');
+                option.textContent = project.trim(); // Trim to remove any extra spaces
+                projects_selection.append(option);
+            });
+        }
+    }
+    
+
     button_addTodo.addEventListener('click', function () {
         dialog.showModal();
     });
@@ -34,6 +56,7 @@ function addTodoDialog() {
         document.getElementById('todo-title').value = '';
         document.getElementById('todo-due-date').value = '';
         document.getElementById('todo-priority-level').value = '';
+        document.getElementById('todo-project').value = '';
         document.getElementById('todo-Context').value = '';
         dialog.close();
     });
@@ -50,9 +73,9 @@ function createTodo() {
     const dueDate = document.getElementById("todo-due-date").value;
     const priority = document.getElementById("todo-priority-level").value;
     const description = document.getElementById("todo-Context").value;
-
+    const project = document.getElementById("todo-project").value;
     // Create a new Todo object, store it in localStorage
-    const newTodo = new Todo(title, description, new Date(dueDate), priority);
+    const newTodo = new Todo(title, description, new Date(dueDate), priority, project);
     localStorage.setItem(newTodo.title, JSON.stringify(newTodo));
 
     //create a new Todo object, show it in the right part
@@ -160,12 +183,19 @@ function decideColorSign(newTodo, div_colorSign) {
 function turnAllTodoInHtml(allTodo) {
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
+
+        // Skip the "projects" item
+        if (key === "projects") {
+            continue;
+        }
+
         const value = JSON.parse(localStorage.getItem(key));
         allTodo[i] = value;
         createTodoInHtml(value);
     }
     return allTodo;
 }
+
 
 function deleteAnTodo(h1_title) {
     localStorage.removeItem(h1_title);
@@ -184,6 +214,7 @@ function EditDialog(todoTitle) {
             }
         }
         document.getElementById('todo-Context').value = todo.description;
+        document.getElementById('todo-project').value = todo.project;
 
         // Open the dialog
         document.getElementById('anTodoDialog').showModal();
@@ -209,11 +240,12 @@ function updateTodo(oldTitle) {
     const dueDate = document.getElementById('todo-due-date').value;
     const priority = document.getElementById('todo-priority-level').value;
     const description = document.getElementById('todo-Context').value;
+    const project = document.getElementById('todo-project').value;
     const checked = todo.checked;
 
     // Update localStorage
     localStorage.removeItem(oldTitle);
-    const updatedTodo = new Todo(title, description, new Date(dueDate), priority);
+    const updatedTodo = new Todo(title, description, new Date(dueDate), priority, project);
     updatedTodo.checked = checked; // Preserve the checked status
     localStorage.setItem(title, JSON.stringify(updatedTodo));
 
@@ -257,7 +289,7 @@ function getTodoByTitle(title) {
     const todoData = localStorage.getItem(title);
     if (todoData) {
         const data = JSON.parse(todoData);
-        const todo = new Todo(data.title, data.description, new Date(data.dueDate), data.priority);
+        const todo = new Todo(data.title, data.description, new Date(data.dueDate), data.priority, data.project);
         todo.checked = data.checked;
         return todo;
     }

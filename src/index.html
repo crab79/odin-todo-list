@@ -41,6 +41,15 @@
                         <option>Trivia</option>
                     </select>
                 </label>
+                <label>
+                    Project:
+                    <select name="todo-project" id="todo-project">
+                        <option value="default">Choose…</option>
+                        <!-- <option>Important</option>
+                        <option>Normal</option>
+                        <option>Trivia</option> -->
+                    </select>
+                </label>
             </p>
             <p>
                 <label>
@@ -50,6 +59,35 @@
             </p>
             <div>
                 <button value="cancel" formmethod="dialog">Cancel</button>
+                <button id="confirmBtn" value="default">Confirm</button>
+            </div>
+        </form>
+    </dialog>
+    <dialog id="anProjectDialog">
+        <form>
+            <p>
+                <label>
+                    Title:
+                    <input type="text" name="project-title" id="project-title">
+                </label>
+            </p>
+            <div>
+                <button value="cancel" formmethod="dialog">Cancel</button>
+                <button id="confirmBtn" value="default">Confirm</button>
+            </div>
+        </form>
+    </dialog>
+    <dialog id="editProjectDialog">
+        <form>
+            <p>
+                <label>
+                    Title:
+                    <input type="text" name="edit-project-title" id="edit-project-title">
+                </label>
+            </p>
+            <div>
+                <button value="cancel" formmethod="dialog">Cancel</button>
+                <button id="delete" value="delete">Delete</button>
                 <button id="confirmBtn" value="default">Confirm</button>
             </div>
         </form>

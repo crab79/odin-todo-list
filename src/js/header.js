@@ -70,19 +70,19 @@ const header = () => {
         if (backgroundColor_content === dark) {
             content.style.backgroundColor = bright;
             addingSthButtons.forEach(button => {
-                button.className = "addingSthButton-bright";
+                button.className += " addingSthButton-bright";
             });
             aTodo.forEach(todo => {
-                todo.className = "aTodo-bright";
+                todo.className += " aTodo-bright";
 
             });
         } else if (backgroundColor_content === bright) {
             content.style.backgroundColor = dark;
             addingSthButtons_bright.forEach(button => {
-                button.className = "addingSthButton";
+                button.className = button.className.replace("addingSthButton addingSthButton-bright", "addingSthButton");
             });
             aTodo_bright.forEach(todo => {
-                todo.className = "aTodo";
+                todo.className = todo.className.replace("aTodo aTodo-bright","aTodo");
             });
         }
     }
