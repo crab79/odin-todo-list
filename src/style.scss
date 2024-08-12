@@ -415,3 +415,147 @@ header {
         }
     }
 }
+
+dialog#anTodoDialog{
+    width: 35rem;
+    height: 30rem;
+    padding: 2rem;
+    transform: translate(-50%, -50%);
+    background-color: #1e1e1e;
+    border-radius: 2.375rem;
+    border: none;
+    position: fixed;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    form{
+        width: 25rem;
+        height: 30rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 5rem;
+        gap: 2rem;
+        p{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            label{
+                color: whitesmoke;
+                @include exo2();
+                font-size: 1.5rem;
+                font-weight: 400;
+                select{
+                    @include exo2();
+                    font-size: 1.5rem;    
+                    height: 3rem;
+                    width: 10rem;
+                }
+            }
+            input{
+                font-size: 2rem;
+                padding: 0.5rem;
+                border-radius: 10px;
+                border: none;
+            }
+        }
+        p:nth-child(4){
+            display: flex;
+            
+            textarea{
+                border-radius: 10px;
+                width: 25rem;
+                height: 10rem;
+                @include exo2();
+                font-size: 2rem;
+            }
+        }
+
+
+        div{
+            display: flex;
+            justify-content: center;
+            button{
+                width: 8rem;
+                height: 4rem;
+                flex-shrink: 0;
+                border-radius: 0.625rem;
+                background: whitesmoke;
+                border: none;
+                margin: 1rem;
+                font-size: 2rem;
+                &:hover {
+                    background: rgb(136, 136, 136);
+                    color: whitesmoke;
+                    cursor: pointer;
+                }
+            }
+        }   
+    }
+}
+
+dialog#anProjectDialog, dialog#editProjectDialog{
+    width: 35rem;
+    height: 18rem;
+    padding: 1rem;
+    transform: translate(-50%, -50%);
+    background-color: #1e1e1e;
+    border-radius: 2.375rem;
+    border: none;
+    position: fixed;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    form{
+        width: 25rem;
+        height:10rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 4rem;
+        padding-top: 4rem;
+        gap: 2rem;
+        p{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            label{
+                color: whitesmoke;
+                @include exo2();
+                font-size: 1.5rem;
+                font-weight: 400;
+                select{
+                    @include exo2();
+                    font-size: 1.5rem;    
+                }
+            }
+            input{
+                font-size: 2rem;
+                padding: 0.5rem;
+                border-radius: 10px;
+                border: none;
+            }
+        }
+
+        div{
+            display: flex;
+            justify-content: center;
+            width: 27rem;
+            button{
+                width: 8rem;
+                height: 4rem;
+                flex-shrink: 0;
+                border-radius: 0.625rem;
+                background: whitesmoke;
+                border: none;
+                margin: 1rem;
+                font-size: 2rem;
+                &:hover {
+                    background: rgb(136, 136, 136);
+                    color: whitesmoke;
+                    cursor: pointer;
+                }
+            }
+        }   
+    }
+}
